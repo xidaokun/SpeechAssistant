@@ -11,4 +11,8 @@
     <string name="github">Github</string>
     <string name="wechat">Wechat</string>
     <string name="mobile">Mobile</string>
+    <string name="write">Write</string>
+    <string name="say">Say</string>
+    <string name="favors">Favors</string>
+    <string name="me">Me</string>
 </resources>

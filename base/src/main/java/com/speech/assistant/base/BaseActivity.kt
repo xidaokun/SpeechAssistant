@@ -10,16 +10,16 @@ import androidx.viewbinding.ViewBinding
 
 open class BaseActivity<Binding : ViewBinding> : ComponentActivity() {
 
-    protected var rootView: View? = null
+    protected var binding: Binding? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         requestWindowFeature(Window.FEATURE_NO_TITLE)
         window.setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN)
-        val binding = viewBindingInflater(layoutInflater)
-        rootView = binding?.root
-        setContentView(rootView)
-        initView(rootView)
+        binding = viewBindingInflater(layoutInflater)
+        setContentView(binding?.root)
+        initView(binding?.root)
+        initListener(binding?.root)
         initData()
     }
 
@@ -29,6 +29,10 @@ open class BaseActivity<Binding : ViewBinding> : ComponentActivity() {
 
     protected open fun initView(root : View?) {
         // Override this method to initialize view
+    }
+
+    protected open fun initListener(root: View?) {
+        // Override this method to initialize listener
     }
 
     protected open fun initData() {
