@@ -39,6 +39,7 @@ class LoginActivity : BaseActivity<ActivityLoginBinding>(), View.OnClickListener
         // Login logic
         val intent = Intent(this, MainActivity::class.java)
         startActivity(intent)
+        finish()
     }
 
     private fun register() {
