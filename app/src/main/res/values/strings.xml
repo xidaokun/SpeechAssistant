@@ -15,4 +15,7 @@
     <string name="say">Say</string>
     <string name="favors">Favors</string>
     <string name="me">Me</string>
+    <string name="content">Content...</string>
+    <string name="recent">Recent</string>
+    <string name="view_all">View All</string>
 </resources>
