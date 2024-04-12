@@ -1,6 +1,131 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
-</LinearLayout>
+    <TextView
+        android:id="@+id/say_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="#ffFFFFFF"
+        android:textSize="34sp"
+        android:lineSpacingExtra="0.2sp"
+        android:fontFamily="SFProDisplay-Bold"
+        android:shadowColor="#40000000"
+        android:shadowDx="0"
+        android:shadowDy="2"
+        android:shadowRadius="5"
+        android:alpha="1"
+        android:layout_marginStart="25dp"
+        android:layout_marginTop="15dp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:text="@string/say"/>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/say_layout"
+            android:layout_width="match_parent"
+            android:layout_height="275dp"
+            android:background="@drawable/write_content_bg"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/say_title"
+            android:layout_marginTop="15dp"
+            android:layout_marginStart="15dp"
+            android:layout_marginEnd="15dp">
+
+        <TextView
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:layout_marginTop="25dp"
+            android:background="@drawable/ic_mic_open"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentTop="true"
+                android:layout_marginTop="399dp"
+                android:textColor="#ff96989B"
+                android:textSize="24sp"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                android:layout_marginBottom="15dp"
+                android:lineSpacingExtra="-8.8sp"
+                android:fontFamily="Lohit Devanagari"
+                android:gravity="top"
+                android:alpha="1"
+                android:text="@string/listening"/>
+
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/history_layout"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:background="@drawable/write_history_bg"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/say_layout"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_marginTop="30dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="#ff141414"
+            android:textSize="18sp"
+            android:lineSpacingExtra="13.4sp"
+            android:fontFamily="SFProDisplay-Bold"
+            android:alpha="1"
+            android:drawablePadding="3dp"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="12dp"
+            android:text="@string/recent"
+            app:drawableLeftCompat="@drawable/ic_text_history" />
+
+        <TextView
+            android:id="@+id/view_all"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="#EB5757"
+            android:textSize="16sp"
+            android:lineSpacingExtra="13.4sp"
+            android:fontFamily="SFProDisplay-Bold"
+            android:alpha="1"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:layout_marginEnd="20dp"
+            android:layout_marginTop="12dp"
+            android:text="@string/view_all"
+            app:drawableLeftCompat="@drawable/write_history_bg" />
+
+        <View
+            android:id="@+id/history_line"
+            android:layout_width="match_parent"
+            android:layout_height="1.5px"
+            android:background="#ffCDCDDF"
+            android:layout_marginTop="12dp"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/view_all"/>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rv_voice_history"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@+id/history_line"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"/>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

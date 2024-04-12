@@ -18,4 +18,16 @@
     <string name="content">Content...</string>
     <string name="recent">Recent</string>
     <string name="view_all">View All</string>
+    <string name="listening">Listening ...</string>
+    <string name="visitor">Visitor</string>
+    <string name="voices">Voices</string>
+    <string name="texts">Texts</string>
+    <string name="personal_information">Personal Information</string>
+    <string name="nickname">Nickname</string>
+    <string name="tel">Tel.</string>
+    <string name="address">Address</string>
+    <string name="email">Email</string>
+    <string name="signature">Signature</string>
+    <string name="sex">Sex</string>
+    <string name="age">Age</string>
 </resources>
