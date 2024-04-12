@@ -32,4 +32,15 @@
     <string name="age">Age</string>
     <string name="clean_data">Clean Data</string>
     <string name="logout">Logout</string>
+    <string name="detail">Detail</string>
+    <string name="information">Informations</string>
+    <string name="rate">Rate:</string>
+    <string name="name">Name:</string>
+    <string name="volume">Volume:</string>
+    <string name="duration">Duration:</string>
+    <string name="view">View</string>
+    <string name="share">Share</string>
+    <string name="delete">Delete</string>
+    <string name="text">Text:</string>
+    <string name="voice">Voice:</string>
 </resources>

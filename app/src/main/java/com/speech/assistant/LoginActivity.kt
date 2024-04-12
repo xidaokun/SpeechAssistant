@@ -37,7 +37,8 @@ class LoginActivity : BaseActivity<ActivityLoginBinding>(), View.OnClickListener
 
     private fun login() {
         // Login logic
-        val intent = Intent(this, MainActivity::class.java)
+//        val intent = Intent(this, MainActivity::class.java)
+        val intent = Intent(this, DetailActivity::class.java)
         startActivity(intent)
         finish()
     }
