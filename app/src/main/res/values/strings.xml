@@ -43,4 +43,8 @@
     <string name="delete">Delete</string>
     <string name="text">Text:</string>
     <string name="voice">Voice:</string>
+    <string name="register">Register</string>
+    <string name="confirm_password">Confirm Password</string>
+    <string name="sure">Sure</string>
+    <string name="cancel">Cancel</string>
 </resources>

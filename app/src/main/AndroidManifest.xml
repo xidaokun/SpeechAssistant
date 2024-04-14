@@ -29,6 +29,9 @@
 
         <activity android:name=".DetailActivity"
             android:screenOrientation="fullSensor"/>
+
+        <activity android:name=".RegisterActivity"
+            android:screenOrientation="fullSensor"/>
     </application>
 
 </manifest>
