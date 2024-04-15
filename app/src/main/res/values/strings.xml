@@ -2,7 +2,7 @@
     <string name="app_name">SpeechAssistant</string>
     <string name="you_write_and_say">You write and say</string>
     <string name="tell_me_write">You tell me to write</string>
-    <string name="account">Account</string>
+    <string name="username">Username</string>
     <string name="password">Password</string>
     <string name="forget_password">Forget password?</string>
     <string name="login">Login</string>
@@ -47,4 +47,6 @@
     <string name="confirm_password">Confirm Password</string>
     <string name="sure">Sure</string>
     <string name="cancel">Cancel</string>
+    <string name="waiting">Waiting...</string>
+    <string name="back">Back</string>
 </resources>

@@ -4,8 +4,12 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.View.OnClickListener
+import android.view.animation.AnimationUtils
+import android.widget.ImageView
+import android.widget.Toast
 import com.speech.assistant.base.BaseActivity
 import com.speech.assistant.databinding.ActivityRegisterBinding
+import com.speech.assistant.datas.SResponse
 import com.speech.assistant.net.RetrofitClient
 import com.speech.assistant.utls.NetUtils
 import okhttp3.ResponseBody
@@ -28,25 +32,40 @@ class RegisterActivity : BaseActivity<ActivityRegisterBinding>(), OnClickListene
     override fun onClick(v: View?) {
         when(v) {
             binding?.btnSure -> register(binding?.registerAccount?.text.toString(),
-                binding?.registerPwd?.text.toString())
+                binding?.registerPwd?.text.toString(), binding?.registerConfirmPwd?.text.toString())
             binding?.btnBack -> back()
         }
     }
 
-    private fun register(username:String, password:String) {
+    private fun register(username:String, password:String, confirmPassword:String) {
+        if(username.isEmpty() || password.isEmpty() || confirmPassword.isEmpty()) {
+            Toast.makeText(this@RegisterActivity, "account or password is empty!", Toast.LENGTH_SHORT).show()
+            return
+        }
+
+        if((password != confirmPassword)) {
+            Toast.makeText(this@RegisterActivity, "password is not same!", Toast.LENGTH_SHORT).show()
+            return
+        }
+
+        showWaiting()
         // Register logic
-        val call = RetrofitClient.apiService.register(NetUtils.createJsonBody(mapOf("username" to username, "password" to password)))
-        call.enqueue(object : Callback<ResponseBody> {
-            override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>) {
+        val call = RetrofitClient.apiService.register(NetUtils.createJsonBody(mapOf("name" to username, "password" to password)))
+        call.enqueue(object : Callback<SResponse<Any>> {
+            override fun onResponse(call: Call<SResponse<Any>>, response: Response<SResponse<Any>>) {
                 if (response.isSuccessful) {
                     val body = response.body()
-                    val string = body?.string()
-                    Log.d("TAG", "onResponse: $string")
+                    Log.d("TAG", "onResponse: ${body?.message}")
+                    Toast.makeText(this@RegisterActivity, "register success!", Toast.LENGTH_SHORT).show()
+                    finish()
                 }
+                dismissWaiting()
             }
 
-            override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
+            override fun onFailure(call: Call<SResponse<Any>>, t: Throwable) {
                 Log.d("TAG", "onFailure: ${t.message}")
+                dismissWaiting()
+                Toast.makeText(this@RegisterActivity, t.message, Toast.LENGTH_SHORT).show()
             }
         })
     }
@@ -55,4 +74,14 @@ class RegisterActivity : BaseActivity<ActivityRegisterBinding>(), OnClickListene
         finish()
     }
 
+    private fun showWaiting() {
+        findViewById<View>(R.id.mask_layout).visibility = View.VISIBLE
+        AnimationUtils.loadAnimation(this, R.anim.rotate)
+        findViewById<ImageView>(R.id.waiting_process).startAnimation(AnimationUtils.loadAnimation(this, R.anim.rotate))
+    }
+
+    private fun dismissWaiting() {
+        findViewById<View>(R.id.mask_layout).visibility = View.GONE
+        findViewById<ImageView>(R.id.waiting_process).clearAnimation()
+    }
 }
