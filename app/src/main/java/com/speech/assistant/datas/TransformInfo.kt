@@ -1,4 +1,3 @@
 package com.speech.assistant.datas
 
-class TransformInfo {
-}
+data class TransformInfo(val path: String)

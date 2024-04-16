@@ -1,4 +1,4 @@
-package com.speech.assistant
+package com.speech.assistant.base.base
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -7,8 +7,15 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.viewbinding.ViewBinding
 
-open class BaseFragment<Binding : ViewBinding> : Fragment() {
+open class BaseFragment<Binding : ViewBinding, Ctl : BaseCtl> : Fragment() {
     protected var binding: Binding? = null
+    protected var ctl: Ctl? = null
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        ctl = ctl()
+        ctl?.onCreate()
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -18,6 +25,7 @@ open class BaseFragment<Binding : ViewBinding> : Fragment() {
         initView(binding?.root)
         initListener(binding?.root)
         initData()
+        ctl?.onCreateView()
         return binding?.root
     }
 
@@ -40,5 +48,11 @@ open class BaseFragment<Binding : ViewBinding> : Fragment() {
     override fun onDestroyView() {
         super.onDestroyView()
         binding = null
+        ctl?.onDestroyView()
+        ctl = null
+    }
+
+    protected open fun ctl(): Ctl? {
+        return null
     }
 }

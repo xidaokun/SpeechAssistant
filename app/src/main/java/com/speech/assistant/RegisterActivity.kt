@@ -7,17 +7,17 @@ import android.view.View.OnClickListener
 import android.view.animation.AnimationUtils
 import android.widget.ImageView
 import android.widget.Toast
-import com.speech.assistant.base.BaseActivity
+import com.speech.assistant.base.NoneCtl
+import com.speech.assistant.base.base.BaseActivity
 import com.speech.assistant.databinding.ActivityRegisterBinding
 import com.speech.assistant.datas.SResponse
 import com.speech.assistant.net.RetrofitClient
 import com.speech.assistant.utls.NetUtils
-import okhttp3.ResponseBody
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
-class RegisterActivity : BaseActivity<ActivityRegisterBinding>(), OnClickListener {
+class RegisterActivity : BaseActivity<ActivityRegisterBinding, NoneCtl>(), OnClickListener {
 
     override fun viewBindingInflater(inflater: LayoutInflater): ActivityRegisterBinding {
         return ActivityRegisterBinding.inflate(inflater)

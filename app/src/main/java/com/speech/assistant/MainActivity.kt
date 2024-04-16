@@ -2,14 +2,15 @@ package com.speech.assistant
 
 import android.view.LayoutInflater
 import android.view.View
-import com.speech.assistant.base.BaseActivity
+import com.speech.assistant.base.base.BaseActivity
+import com.speech.assistant.base.NoneCtl
 import com.speech.assistant.databinding.ActivityMainBinding
 import com.speech.assistant.fragments.FavorFragment
 import com.speech.assistant.fragments.MeFragment
 import com.speech.assistant.fragments.SayFragment
 import com.speech.assistant.fragments.WriteFragment
 
-class MainActivity : BaseActivity<ActivityMainBinding>() {
+class MainActivity : BaseActivity<ActivityMainBinding, NoneCtl>() {
 
     val writeFragment = WriteFragment()
     val sayFragment = SayFragment()

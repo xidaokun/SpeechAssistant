@@ -1,18 +1,17 @@
-package com.speech.assistant.base
+package com.speech.assistant.base.base
 
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.Window
 import android.view.WindowManager
-import androidx.activity.ComponentActivity
 import androidx.appcompat.app.AppCompatActivity
 import androidx.viewbinding.ViewBinding
-import com.speech.assistant.BaseFragment
 
-open class BaseActivity<Binding : ViewBinding> : AppCompatActivity() {
+abstract class BaseActivity<Binding : ViewBinding, Ctl : BaseCtl> : AppCompatActivity() {
 
     protected var binding: Binding? = null
+    protected var ctl: Ctl? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -20,6 +19,8 @@ open class BaseActivity<Binding : ViewBinding> : AppCompatActivity() {
         supportActionBar?.hide()
         window.setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN)
         binding = viewBindingInflater(layoutInflater)
+        ctl = ctl()
+        ctl?.onCreate()
         setContentView(binding?.root)
         initView(binding?.root)
         initListener(binding?.root)
@@ -42,9 +43,20 @@ open class BaseActivity<Binding : ViewBinding> : AppCompatActivity() {
         return null
     }
 
+    override fun onResume() {
+        super.onResume()
+        ctl?.onResume()
+    }
+
+    protected open fun ctl(): Ctl? {
+        return null
+    }
+
     override fun onDestroy() {
         super.onDestroy()
         binding = null
+        ctl?.onDestroy()
+        ctl = null
     }
 
 }

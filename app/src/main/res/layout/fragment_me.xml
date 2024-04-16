@@ -232,14 +232,14 @@
                 app:layout_constraintTop_toBottomOf="@+id/nickname_title" />
 
             <TextView
-                android:id="@+id/sex_title"
+                android:id="@+id/gender_title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="15dp"
                 android:alpha="1"
                 android:fontFamily="Alibaba PuHuiTi 2.0"
                 android:lineSpacingExtra="5.4sp"
-                android:text="@string/sex"
+                android:text="@string/gender"
                 android:textColor="#ff1C2023"
                 android:textSize="21sp"
                 app:layout_constraintLeft_toLeftOf="@+id/nickname_line"
@@ -256,9 +256,9 @@
                 android:text="Wonman"
                 android:textColor="#ff1C2023"
                 android:textSize="15sp"
-                app:layout_constraintBottom_toBottomOf="@+id/sex_title"
+                app:layout_constraintBottom_toBottomOf="@+id/gender_title"
                 app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintTop_toTopOf="@+id/sex_title" />
+                app:layout_constraintTop_toTopOf="@+id/gender_title" />
 
             <View
                 android:id="@+id/sex_line"
@@ -270,7 +270,7 @@
                 android:background="#ffE3E4E5"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/sex_title" />
+                app:layout_constraintTop_toBottomOf="@+id/gender_title" />
 
             <TextView
                 android:id="@+id/age_title"

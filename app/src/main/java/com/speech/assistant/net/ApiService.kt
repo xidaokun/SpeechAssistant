@@ -1,19 +1,25 @@
 package com.speech.assistant.net
+import com.speech.assistant.datas.LoginInfo
 import com.speech.assistant.datas.SResponse
 import com.speech.assistant.datas.TransformInfo
 import com.speech.assistant.datas.UserInfo
+import com.speech.assistant.datas.VoiceInfo
 import okhttp3.RequestBody
 import okhttp3.ResponseBody
 import retrofit2.Call
 import retrofit2.http.Body
 import retrofit2.http.Field
 import retrofit2.http.FormUrlEncoded
+import retrofit2.http.GET
 import retrofit2.http.POST
 
 interface ApiService {
 
     @POST("user/login")
-    fun login(@Body body: RequestBody): Call<SResponse<Any>>
+    fun login(@Body body: RequestBody): Call<SResponse<LoginInfo>>
+
+    @POST("user/refresh_token")
+    fun refreshToken(): Call<SResponse<LoginInfo>>
 
     @POST("user/register")
     fun register(@Body body: RequestBody): Call<SResponse<Any>>
@@ -27,8 +33,8 @@ interface ApiService {
     @POST("user/modify_phone")
     fun modifyPhone(@Body body: RequestBody): Call<SResponse<Any>>
 
-    @POST("tss/voice_list")
-    fun voiceList(@Body body: RequestBody): Call<ResponseBody>
+    @GET("tss/voice_list")
+    fun voiceList(): Call<SResponse<List<VoiceInfo>>>
 
     @POST("tss/transform")
     fun transform(@Body body: RequestBody): Call<SResponse<TransformInfo>>

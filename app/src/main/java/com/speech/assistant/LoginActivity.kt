@@ -1,27 +1,21 @@
 package com.speech.assistant
 
 import android.content.Intent
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.animation.AnimationUtils
 import android.widget.ImageView
 import android.widget.Toast
-import com.speech.assistant.base.BaseActivity
+import com.speech.assistant.base.DataChangedListener
+import com.speech.assistant.base.base.BaseActivity
+import com.speech.assistant.ctls.LoginCtl
 import com.speech.assistant.databinding.ActivityLoginBinding
-import com.speech.assistant.datas.SResponse
-import com.speech.assistant.net.RetrofitClient
-import com.speech.assistant.utls.NetUtils
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
 
-class LoginActivity : BaseActivity<ActivityLoginBinding>(), View.OnClickListener {
+class LoginActivity : BaseActivity<ActivityLoginBinding, LoginCtl>(), View.OnClickListener {
 
-    private val TAG : String = "LoginActivity"
-
-    override fun viewBindingInflater(inflater: LayoutInflater): ActivityLoginBinding {
-        return ActivityLoginBinding.inflate(inflater)
+    override fun initData() {
+        super.initData()
+        refreshToken()
     }
 
     override fun initListener(root: View?) {
@@ -32,10 +26,6 @@ class LoginActivity : BaseActivity<ActivityLoginBinding>(), View.OnClickListener
         binding?.github?.setOnClickListener(this)
         binding?.wechat?.setOnClickListener(this)
         binding?.mobile?.setOnClickListener(this)
-    }
-
-    override fun initData() {
-        super.initData()
     }
 
     override fun onClick(v: View?) {
@@ -49,34 +39,44 @@ class LoginActivity : BaseActivity<ActivityLoginBinding>(), View.OnClickListener
         }
     }
 
-    private fun login(username:String, password:String) {
-        if(username.isEmpty() or password.isEmpty()) {
-            Toast.makeText(this@LoginActivity, "account or password is empty!", Toast.LENGTH_SHORT).show()
-            return
-        }
-
-        showWaiting()
-        val params = mapOf("name" to username, "password" to password)
-        val call = RetrofitClient.apiService.login(NetUtils.createJsonBody(params))
-        call.enqueue(object : Callback<SResponse<Any>> {
-            override fun onResponse(call: Call<SResponse<Any>>, response: Response<SResponse<Any>>) {
-                if (response.isSuccessful) {
-                    val body = response.body()
-                    Log.d(TAG, "onResponse: ${body?.message}")
-                    if(body?.status == 1) {
-                        val intent = Intent(this@LoginActivity, MainActivity::class.java)
-                        startActivity(intent)
-                        finish()
-                    }
-                    dismissWaiting()
-                    Toast.makeText(this@LoginActivity, body?.message, Toast.LENGTH_SHORT).show()
+    private fun refreshToken() {
+        ctl?.refreshToken(object : DataChangedListener<LoginCtl.LoginData> {
+            override fun onChanged(data: LoginCtl.LoginData) {
+                if (data.status == 1) {
+                    val intent = Intent(this@LoginActivity, MainActivity::class.java)
+                    startActivity(intent)
+                    finish()
                 }
             }
 
-            override fun onFailure(call: Call<SResponse<Any>>, t: Throwable) {
-                Log.d(TAG, "onFailure: ${t.message}")
+            override fun onBefore() {
+                showWaiting()
+            }
+
+            override fun onAfter(message: String?) {
                 dismissWaiting()
-                Toast.makeText(this@LoginActivity, t.message, Toast.LENGTH_SHORT).show()
+                Toast.makeText(this@LoginActivity, message, Toast.LENGTH_SHORT).show()
+            }
+        })
+    }
+
+    private fun login(username:String, password:String) {
+        ctl?.login(username, password, object : DataChangedListener<LoginCtl.LoginData> {
+            override fun onChanged(data: LoginCtl.LoginData) {
+                if (data.status == 1) {
+                    val intent = Intent(this@LoginActivity, MainActivity::class.java)
+                    startActivity(intent)
+                    finish()
+                }
+            }
+
+            override fun onBefore() {
+                showWaiting()
+            }
+
+            override fun onAfter(message: String?) {
+                dismissWaiting()
+                Toast.makeText(this@LoginActivity, message, Toast.LENGTH_SHORT).show()
             }
         })
     }
@@ -111,6 +111,14 @@ class LoginActivity : BaseActivity<ActivityLoginBinding>(), View.OnClickListener
 
     private fun openMobile() {
         // Open Mobile logic
+    }
+
+    override fun viewBindingInflater(inflater: LayoutInflater): ActivityLoginBinding {
+        return ActivityLoginBinding.inflate(inflater)
+    }
+
+    override fun ctl(): LoginCtl {
+        return LoginCtl()
     }
 
 }
