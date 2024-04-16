@@ -1,10 +1,18 @@
 package com.speech.assistant.base.base
 
-import com.speech.assistant.base.DbHelper
+import androidx.room.Room
+import com.speech.assistant.base.Settings
+import com.speech.assistant.base.db.AppDatabase
+import com.speech.assistant.base.utils.ApplicationUtil
+
 
 open class BaseCtl {
 
-    protected val dbHelper: DbHelper by lazy { DbHelper() }
+    protected val dbHelper: AppDatabase by lazy {
+        ApplicationUtil.getContext()?.let {
+            Room.databaseBuilder(it, AppDatabase::class.java, Settings.DB_NAME).build()
+        } ?: throw IllegalStateException("Context is null")
+    }
 
     fun onCreate() {
         // Override this method to initialize data

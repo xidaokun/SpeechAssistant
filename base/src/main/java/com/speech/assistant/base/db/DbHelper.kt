@@ -1,15 +1,19 @@
-package com.speech.assistant.base
+package com.speech.assistant.base.db
 
 import android.content.ContentValues
 import android.database.Cursor
 import android.database.sqlite.SQLiteDatabase
 import android.database.sqlite.SQLiteOpenHelper
+import com.speech.assistant.base.Settings
 import com.speech.assistant.base.Settings.Companion.CREATE_USER_INFO_QUERY
 import com.speech.assistant.base.Settings.Companion.CREATE_VOICE_HISTORY_QUERY
 import com.speech.assistant.base.Settings.Companion.VOICE_HISTORY_TABLE
 import com.speech.assistant.base.utils.ApplicationUtil
 
-class DbHelper() : SQLiteOpenHelper(ApplicationUtil.getContext(), Settings.DB_NAME, null, Settings.DB_VERSION) {
+class DbHelper() : SQLiteOpenHelper(ApplicationUtil.getContext(),
+    Settings.DB_NAME, null,
+    Settings.DB_VERSION
+) {
 
     override fun onCreate(db: SQLiteDatabase?) {
         db?.execSQL(CREATE_USER_INFO_QUERY)

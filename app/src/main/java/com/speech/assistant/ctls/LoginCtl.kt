@@ -79,12 +79,7 @@ class LoginCtl : BaseCtl(){
     }
 
     private fun cacheLoginInfo(loginInfo: LoginInfo) {
-        val values = ContentValues().apply {
-            put("access_token", loginInfo.access_token)
-            put("user_id", loginInfo.user_id)
-            put("user_name", loginInfo.user_name)
-        }
-        dbHelper.insert(Settings.USER_INFO_TABLE, values)
+        dbHelper.userDao().insertAll(loginInfo)
 
         PreferenceHelper.save(MyConstants.SP_TOKEN_KEY, loginInfo.access_token)
         PreferenceHelper.save(MyConstants.SP_USERID_KEY, loginInfo.user_id)
