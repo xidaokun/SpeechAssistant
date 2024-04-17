@@ -5,6 +5,7 @@ import com.speech.assistant.datas.TransformInfo
 import com.speech.assistant.datas.UserInfo
 import com.speech.assistant.datas.VoiceInfo
 import okhttp3.RequestBody
+import okhttp3.ResponseBody
 import retrofit2.Call
 import retrofit2.http.Body
 import retrofit2.http.GET
@@ -35,6 +36,9 @@ interface ApiService {
 
     @POST("tss/transform")
     fun transform(@Body body: RequestBody): Call<SResponse<TransformInfo>>
+
+    @POST("tss/download_file")
+    fun downloadFile(@Body body: RequestBody): Call<ResponseBody>
 
     @POST("user/user_info")
     fun getUserInfo(@Body body: RequestBody): Call<SResponse<UserInfo>>

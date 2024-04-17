@@ -16,6 +16,7 @@ import kotlinx.coroutines.withContext
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import java.io.File
 
 class WriteCtl : BaseCtl() {
 
@@ -56,23 +57,73 @@ class WriteCtl : BaseCtl() {
         }
     }
 
+    @OptIn(DelicateCoroutinesApi::class)
     fun transform(text: String, name: String, voice: String, volume: String, rate: String, listener: DataChangedListener<WriteData>) {
-        val params = mapOf("text" to text, "name" to name, "password" to voice, "volume" to volume, "rate" to rate)
-        val call = RetrofitClient.apiService.transform(NetUtils.createJsonBody(params))
-        call.enqueue(object : Callback<SResponse<TransformInfo>> {
-            override fun onResponse(call: Call<SResponse<TransformInfo>>, response: Response<SResponse<TransformInfo>>) {
-                if (response.isSuccessful) {
-                    val body = response.body()
-                    Log.d(TAG, "onResponse: ${body?.message}")
-                    listener.onChanged(WriteData(body?.status, body?.message))
+        listener.onBefore()
+        GlobalScope.launch {
+            val params = mapOf("text" to text, "name" to name, "password" to voice, "volume" to volume, "rate" to rate)
+            RetrofitClient.apiService.transform(NetUtils.createJsonBody(params)).run {
+                try {
+                    val response = execute()
+                    if (response.isSuccessful) {
+                        val body = response.body()
+                        withContext(Dispatchers.Main) {
+                            listener.onChanged(WriteData(body?.status, body?.message))
+                            listener.onAfter(body?.message)
+                        }
+                    } else {
+                        withContext(Dispatchers.Main) {
+                            listener.onChanged(WriteData(0, response.message()))
+                            listener.onAfter(response.message())
+                        }
+                    }
+                } catch (e : Exception) {
+                    withContext(Dispatchers.Main) {
+                        listener.onChanged(WriteData(0, e.message))
+                        listener.onAfter(e.message)
+                    }
                 }
             }
+        }
+    }
 
-            override fun onFailure(call: Call<SResponse<TransformInfo>>, t: Throwable) {
-                Log.d(TAG, "onFailure: ${t.message}")
-                listener.onChanged(WriteData(0, t.message))
+    @OptIn(DelicateCoroutinesApi::class)
+    fun downloadFile(outputPath: String, name: String, listener: DataChangedListener<WriteData>) {
+        listener.onBefore()
+        GlobalScope.launch {
+            val params = mapOf( "name" to name)
+            RetrofitClient.apiService.downloadFile(NetUtils.createJsonBody(params)).run {
+                 try {
+                    val response = execute()
+                    if (response.isSuccessful) {
+                        val body = response.body()
+                        body?.let {
+                            withContext(Dispatchers.IO) {
+                                it.byteStream().use { input ->
+                                    File(outputPath).outputStream().use { output ->
+                                        input.copyTo(output)
+                                    }
+                                }
+                            }
+                        }
+                        withContext(Dispatchers.Main) {
+                            listener.onChanged(WriteData(1, "success"))
+                            listener.onAfter("success")
+                        }
+                    } else {
+                        withContext(Dispatchers.Main) {
+                            listener.onChanged(WriteData(0, response.message()))
+                            listener.onAfter(response.message())
+                        }
+                    }
+                } catch (e : Exception) {
+                    withContext(Dispatchers.Main) {
+                        listener.onChanged(WriteData(0, e.message))
+                        listener.onAfter(e.message)
+                    }
+                }
             }
-        })
+        }
     }
 
     private fun cacheVoiceList(data: List<VoiceInfo>) {
