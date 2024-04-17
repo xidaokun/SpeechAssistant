@@ -1,14 +1,12 @@
 package com.speech.assistant.ctls
 
-import android.content.ContentValues
 import android.util.Log
 import com.speech.assistant.MyConstants
 import com.speech.assistant.base.DataChangedListener
-import com.speech.assistant.base.Settings
 import com.speech.assistant.base.base.BaseCtl
 import com.speech.assistant.base.utils.PreferenceHelper
 import com.speech.assistant.datas.LoginInfo
-import com.speech.assistant.datas.SResponse
+import com.speech.assistant.datas.UserInfo
 import com.speech.assistant.net.RetrofitClient
 import com.speech.assistant.utls.NetUtils
 import kotlinx.coroutines.DelicateCoroutinesApi
@@ -16,9 +14,6 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
 import java.lang.Exception
 
 class LoginCtl : BaseCtl(){
@@ -107,8 +102,6 @@ class LoginCtl : BaseCtl(){
     }
 
     private fun cacheLoginInfo(loginInfo: LoginInfo) {
-        dbHelper.userDao().insertAll(loginInfo)
-
         PreferenceHelper.save(MyConstants.SP_TOKEN_KEY, loginInfo.access_token)
         PreferenceHelper.save(MyConstants.SP_USERID_KEY, loginInfo.user_id)
         PreferenceHelper.save(MyConstants.SP_USERNAME_KEY, loginInfo.user_name)

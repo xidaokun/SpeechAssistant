@@ -30,6 +30,7 @@ class WriteCtl : BaseCtl() {
         GlobalScope.launch {
             dbHelper.voiceDao().getAll().let {
                 if (it.isNotEmpty()) {
+                    Log.d(TAG, "cache voices size= ${it.size}")
                     listener.onChanged(VoiceData(1, "success", it))
                 } else {
                     RetrofitClient.apiService.voiceList().run {
@@ -37,7 +38,7 @@ class WriteCtl : BaseCtl() {
                             val response = execute()
                             if (response.isSuccessful) {
                                 val body = response.body()
-                                Log.d(TAG, "onResponse: ${body?.message}")
+                                Log.d(TAG, "net voices size= ${it.size}")
                                 body?.data?.let { cacheVoiceList(it) }
                                 withContext(Dispatchers.Main) {
                                     listener.onChanged(VoiceData(body?.status, body?.message, body?.data))
@@ -73,7 +74,6 @@ class WriteCtl : BaseCtl() {
             }
         })
     }
-
 
     private fun cacheVoiceList(data: List<VoiceInfo>) {
         dbHelper.voiceDao().insertAll(data)

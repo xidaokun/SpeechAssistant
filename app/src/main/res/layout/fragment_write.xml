@@ -1,148 +1,160 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
-
-    <TextView
-        android:id="@+id/write_title"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textColor="#ffFFFFFF"
-        android:textSize="34sp"
-        android:lineSpacingExtra="0.2sp"
-        android:fontFamily="SFProDisplay-Bold"
-        android:shadowColor="#40000000"
-        android:shadowDx="0"
-        android:shadowDy="2"
-        android:shadowRadius="5"
-        android:alpha="1"
-        android:layout_marginStart="25dp"
-        android:layout_marginTop="15dp"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        android:text="@string/write"/>
-
+    android:layout_height="match_parent">
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/write_layout"
         android:layout_width="match_parent"
-        android:layout_height="370dp"
-        android:background="@drawable/write_content_bg"
-        android:layout_marginStart="15dp"
-        android:layout_marginEnd="15dp"
-        android:layout_marginTop="15dp"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/write_title">
+        android:layout_height="match_parent">
 
-        <EditText
-            android:id="@+id/content"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            android:layout_marginTop="8dp"
-            android:layout_marginLeft="8dp"
-            android:layout_marginRight="8dp"
-            android:layout_marginBottom="62dp"
+        <TextView
+            android:id="@+id/write_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:textColor="#ffFFFFFF"
-            android:textColorHint="#ffFFFFFF"
-            android:textSize="14.17sp"
-            android:lineSpacingExtra="3sp"
-            android:fontFamily="SFProDisplay-Regular"
-            android:gravity="top"
-            android:alpha="0.54"
-            android:hint="@string/content"/>
-
-        <TextView
-            android:id="@+id/setting"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_alignParentStart="true"
+            android:textSize="34sp"
+            android:lineSpacingExtra="0.2sp"
+            android:fontFamily="SFProDisplay-Bold"
+            android:shadowColor="#40000000"
+            android:shadowDx="0"
+            android:shadowDy="2"
+            android:shadowRadius="5"
+            android:alpha="1"
             android:layout_marginStart="25dp"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/content"
-            android:background="@drawable/settings"/>
-
-        <TextView
-            android:id="@+id/send"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_alignParentEnd="true"
-            android:layout_marginEnd="25dp"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/content"
-            android:background="@drawable/send"/>
-    </androidx.constraintlayout.widget.ConstraintLayout>
-
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/history_layout"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:background="@drawable/write_history_bg"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/write_layout"
-        app:layout_constraintBottom_toBottomOf="parent"
-        android:layout_marginTop="30dp">
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textColor="#ff141414"
-            android:textSize="18sp"
-            android:lineSpacingExtra="13.4sp"
-            android:fontFamily="SFProDisplay-Bold"
-            android:alpha="1"
-            android:drawablePadding="3dp"
+            android:layout_marginTop="15dp"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            android:layout_marginStart="20dp"
-            android:layout_marginTop="12dp"
-            android:text="@string/recent"
-            app:drawableLeftCompat="@drawable/ic_voice_history" />
+            android:text="@string/write"/>
 
-        <TextView
-            android:id="@+id/view_all"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textColor="#EB5757"
-            android:textSize="16sp"
-            android:lineSpacingExtra="13.4sp"
-            android:fontFamily="SFProDisplay-Bold"
-            android:alpha="1"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            android:layout_marginEnd="20dp"
-            android:layout_marginTop="12dp"
-            android:text="@string/view_all"
-            app:drawableLeftCompat="@drawable/write_history_bg" />
-
-        <View
-            android:id="@+id/history_line"
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/write_layout"
             android:layout_width="match_parent"
-            android:layout_height="1.5px"
-            android:background="#ffCDCDDF"
-            android:layout_marginTop="12dp"
+            android:layout_height="370dp"
+            android:background="@drawable/write_content_bg"
+            android:layout_marginStart="15dp"
+            android:layout_marginEnd="15dp"
+            android:layout_marginTop="15dp"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/view_all"/>
+            app:layout_constraintTop_toBottomOf="@+id/write_title">
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/rv_voice_history"
+            <EditText
+                android:id="@+id/content"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                android:layout_marginTop="8dp"
+                android:layout_marginLeft="8dp"
+                android:layout_marginRight="8dp"
+                android:layout_marginBottom="62dp"
+                android:textColor="#ffFFFFFF"
+                android:textColorHint="#ffFFFFFF"
+                android:textSize="14.17sp"
+                android:lineSpacingExtra="3sp"
+                android:fontFamily="SFProDisplay-Regular"
+                android:gravity="top"
+                android:alpha="0.54"
+                android:hint="@string/content"/>
+
+            <TextView
+                android:id="@+id/setting"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_alignParentStart="true"
+                android:layout_marginStart="25dp"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/content"
+                android:background="@drawable/settings"/>
+
+            <TextView
+                android:id="@+id/send"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_alignParentEnd="true"
+                android:layout_marginEnd="25dp"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/content"
+                android:background="@drawable/send"/>
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/history_layout"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:layout_constraintTop_toBottomOf="@+id/history_line"
+            android:layout_height="0dp"
+            android:background="@drawable/write_history_bg"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"/>
+            app:layout_constraintTop_toBottomOf="@+id/write_layout"
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:layout_marginTop="30dp">
 
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="#ff141414"
+                android:textSize="18sp"
+                android:lineSpacingExtra="13.4sp"
+                android:fontFamily="SFProDisplay-Bold"
+                android:alpha="1"
+                android:drawablePadding="3dp"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="12dp"
+                android:text="@string/recent"
+                app:drawableLeftCompat="@drawable/ic_voice_history" />
+
+            <TextView
+                android:id="@+id/view_all"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="#EB5757"
+                android:textSize="16sp"
+                android:lineSpacingExtra="13.4sp"
+                android:fontFamily="SFProDisplay-Bold"
+                android:alpha="1"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                android:layout_marginEnd="20dp"
+                android:layout_marginTop="12dp"
+                android:text="@string/view_all"
+                app:drawableLeftCompat="@drawable/write_history_bg" />
+
+            <View
+                android:id="@+id/history_line"
+                android:layout_width="match_parent"
+                android:layout_height="1.5px"
+                android:background="#ffCDCDDF"
+                android:layout_marginTop="12dp"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/view_all"/>
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rv_voice_history"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toBottomOf="@+id/history_line"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"/>
+        </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>
 
+    <include
+        android:id="@+id/mask_layout"
+        android:visibility="gone"
+        layout="@layout/waiting_mask"/>
 
+    <include
+        android:id="@+id/write_setting"
+        android:visibility="gone"
+        layout="@layout/write_setting"/>
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+</FrameLayout>
+
