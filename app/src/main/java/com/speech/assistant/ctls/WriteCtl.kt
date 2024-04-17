@@ -88,7 +88,7 @@ class WriteCtl : BaseCtl() {
     }
 
     @OptIn(DelicateCoroutinesApi::class)
-    fun downloadFile(outputPath: String, name: String, listener: DataChangedListener<WriteData>) {
+    fun downloadFile(outputPath: File, name: String, listener: DataChangedListener<WriteData>) {
         listener.onBefore()
         GlobalScope.launch {
             val params = mapOf( "name" to name)
@@ -98,13 +98,13 @@ class WriteCtl : BaseCtl() {
                     if (response.isSuccessful) {
                         val body = response.body()
                         body?.let {
-                            withContext(Dispatchers.IO) {
-                                it.byteStream().use { input ->
-                                    File(outputPath).outputStream().use { output ->
-                                        input.copyTo(output)
-                                    }
+                            it.byteStream().use { input ->
+                                outputPath.outputStream().use { output ->
+                                    input.copyTo(output)
                                 }
                             }
+//                            withContext(Dispatchers.IO) {
+//                            }
                         }
                         withContext(Dispatchers.Main) {
                             listener.onChanged(WriteData(1, "success"))

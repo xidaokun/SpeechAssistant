@@ -13,22 +13,22 @@ import retrofit2.http.POST
 
 interface ApiService {
 
-    @POST("user/login")
+    @POST("auth/login")
     fun login(@Body body: RequestBody): Call<SResponse<LoginInfo>>
 
-    @POST("user/refresh_token")
+    @POST("auth/refresh_token")
     fun refreshToken(): Call<SResponse<LoginInfo>>
 
-    @POST("user/register")
+    @POST("auth/register")
     fun register(@Body body: RequestBody): Call<SResponse<Any>>
 
-    @POST("user/verify_code")
+    @POST("auth/verify_code")
     fun verifyCode(@Body body: RequestBody): Call<SResponse<Any>>
 
-    @POST("user/modify_pwd")
+    @POST("auth/modify_pwd")
     fun modifyPwd(@Body body: RequestBody): Call<SResponse<Any>>
 
-    @POST("user/modify_phone")
+    @POST("auth/modify_phone")
     fun modifyPhone(@Body body: RequestBody): Call<SResponse<Any>>
 
     @GET("tss/voice_list")
@@ -40,11 +40,11 @@ interface ApiService {
     @POST("tss/download_file")
     fun downloadFile(@Body body: RequestBody): Call<ResponseBody>
 
-    @POST("user/user_info")
-    fun getUserInfo(@Body body: RequestBody): Call<SResponse<UserInfo>>
+    @POST("user/get_user")
+    fun getUserInfo(): Call<SResponse<UserInfo>>
 
-    @POST("user/update_user_info")
-    fun updateUserInfo(@Body body: RequestBody): Call<SResponse<Any>>
+    @POST("user/update_user")
+    fun updateUserInfo(@Body userInfo: UserInfo): Call<SResponse<UserInfo>>
 
 
 }

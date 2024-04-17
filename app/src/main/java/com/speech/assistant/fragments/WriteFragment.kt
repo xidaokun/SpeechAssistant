@@ -14,6 +14,7 @@ import com.speech.assistant.base.base.BaseFragment
 import com.speech.assistant.base.utils.PreferenceHelper
 import com.speech.assistant.ctls.WriteCtl
 import com.speech.assistant.databinding.FragmentWriteBinding
+import java.io.File
 import java.text.SimpleDateFormat
 import java.util.Date
 
@@ -54,15 +55,17 @@ open class WriteFragment : BaseFragment<FragmentWriteBinding, WriteCtl>() {
         val rate = PreferenceHelper.getString(MyConstants.SP_VOICE_RATE)?: "50"
         val volume = PreferenceHelper.getString(MyConstants.SP_VOICE_VOLUME)?: "50"
         val voice = PreferenceHelper.getString(MyConstants.SP_VOICE_VOLUME)?: "zh-CN-YunxiNeural"
+        val userId = PreferenceHelper.getString(MyConstants.SP_USERID_KEY)
 
         binding?.send?.setOnClickListener {
             val sdf = SimpleDateFormat("yyyy-MM-dd_HH:mm:ss")
-            val name = sdf.format(Date())
+            val name = "${sdf.format(Date())}.mp3"
             ctl?.transform(text, name, voice, "+$volume%", "-$rate%",
                 object : DataChangedListener<WriteCtl.WriteData> {
                     override fun onChanged(data: WriteCtl.WriteData) {
                         if (data.status == 1) {
-                            ctl?.downloadFile("", name, object : DataChangedListener<WriteCtl.WriteData> {
+                            val outputPath = File(requireContext().filesDir, "$userId/$name")
+                            ctl?.downloadFile(outputPath, name, object : DataChangedListener<WriteCtl.WriteData> {
                                 override fun onChanged(data: WriteCtl.WriteData) {
                                     if (data.status == 1) {
                                         Log.d(TAG, "onChanged: ${data.message}")
@@ -96,12 +99,17 @@ open class WriteFragment : BaseFragment<FragmentWriteBinding, WriteCtl>() {
 
         activity?.findViewById<View>(R.id.write_sure_btn)?.setOnClickListener {
             activity?.findViewById<View>(R.id.write_setting)?.visibility = View.GONE
+
             activity?.findViewById<EditText>(R.id.setting_volume_edit)?.text.let {
                 PreferenceHelper.save(MyConstants.SP_VOICE_VOLUME, it.toString())
             }
 
             activity?.findViewById<EditText>(R.id.setting_rate_edit)?.text.let {
                 PreferenceHelper.save(MyConstants.SP_VOICE_RATE, it.toString())
+            }
+
+            activity?.findViewById<Spinner>(R.id.voice_spinner)?.selectedItem.let {
+                PreferenceHelper.save(MyConstants.SP_VOICE_PITCH, it.toString())
             }
         }
 
