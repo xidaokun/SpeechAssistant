@@ -8,6 +8,9 @@ import com.speech.assistant.datas.TransformInfo
 import com.speech.assistant.datas.VoiceInfo
 import com.speech.assistant.net.RetrofitClient
 import com.speech.assistant.utls.NetUtils
+import kotlinx.coroutines.DelicateCoroutinesApi
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -20,6 +23,7 @@ class WriteCtl : BaseCtl() {
 
     data class WriteData(val status: Int?, val message: String?)
 
+    @OptIn(DelicateCoroutinesApi::class)
     fun getVoiceList(listener: DataChangedListener<VoiceData>) {
         val call = RetrofitClient.apiService.voiceList()
         call.enqueue(object : Callback<SResponse<List<VoiceInfo>>> {
@@ -27,6 +31,10 @@ class WriteCtl : BaseCtl() {
                 if (response.isSuccessful) {
                     val body = response.body()
                     Log.d(TAG, "onResponse: ${body?.message}")
+
+                    GlobalScope.launch {
+                        body?.data?.let { cacheVoiceList(it) }
+                    }
                     listener.onChanged(VoiceData(body?.status, body?.message))
                 }
             }
@@ -58,8 +66,8 @@ class WriteCtl : BaseCtl() {
     }
 
 
-    private fun cacheVoiceList(data: List<VoiceInfo>) {
-
+    private suspend fun cacheVoiceList(data: List<VoiceInfo>) {
+        dbHelper.voiceDao().insertAll(data)
     }
 
 }

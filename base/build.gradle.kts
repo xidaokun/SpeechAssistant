@@ -46,6 +46,8 @@ dependencies {
     androidTestImplementation("androidx.test.espresso:espresso-core:3.5.1")
 
     val room_version = "2.4.1"
-    implementation("androidx.room:room-runtime:$room_version")
+    api("androidx.room:room-runtime:$room_version")
     kapt("androidx.room:room-compiler:$room_version")
+
+    api("com.google.code.gson:gson:2.8.6")
 }

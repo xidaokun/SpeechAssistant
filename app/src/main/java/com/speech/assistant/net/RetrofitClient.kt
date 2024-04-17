@@ -9,7 +9,6 @@ import java.util.concurrent.TimeUnit
 object RetrofitClient {
 
     private const val HOST = "172.20.10.2:5000"
-//    private const val HOST = "10.211.55.4:5000"
     private const val BASE_URL = "http://${HOST}/api/v1/"
 
     val apiService: ApiService by lazy {

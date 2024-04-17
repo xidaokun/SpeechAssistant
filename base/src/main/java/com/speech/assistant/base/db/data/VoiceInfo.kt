@@ -1,7 +1,12 @@
 package com.speech.assistant.datas
 
-data class VoiceInfo(val FriendlyName: String, val Gender: String,
-                     val Language: String, val Locale: String, val ShortName: String, val Status: String, val SuggestedCodec: String, val VoiceTag: VoiceTag)
+import androidx.room.Entity
+import androidx.room.PrimaryKey
 
+@Entity
+data class VoiceInfo(@PrimaryKey val FriendlyName: String, val Gender: String,
+                     val Language: String, val Locale: String, val ShortName: String,
+                     val Status: String, val SuggestedCodec: String, val VoiceTag: VoiceTag)
 
+@Entity
 data class VoiceTag(val ContentCategories: List<String>, val VoicePersonalities: List<String>)

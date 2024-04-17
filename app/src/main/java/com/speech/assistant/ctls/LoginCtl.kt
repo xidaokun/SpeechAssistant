@@ -11,6 +11,9 @@ import com.speech.assistant.datas.LoginInfo
 import com.speech.assistant.datas.SResponse
 import com.speech.assistant.net.RetrofitClient
 import com.speech.assistant.utls.NetUtils
+import kotlinx.coroutines.DelicateCoroutinesApi
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -29,7 +32,9 @@ class LoginCtl : BaseCtl(){
                 override fun onResponse(call: Call<SResponse<LoginInfo>>, response: Response<SResponse<LoginInfo>>) {
                     if (response.isSuccessful) {
                         val body = response.body()
-                        body?.data?.let { cacheLoginInfo(it) }
+                        GlobalScope.launch {
+                            body?.data?.let { cacheLoginInfo(it) }
+                        }
                         Log.d(TAG, "onResponse: ${body?.message}")
                         listener?.onChanged(LoginData(body?.status, body?.message))
                         listener?.onAfter(body?.message)
@@ -49,6 +54,7 @@ class LoginCtl : BaseCtl(){
     }
 
 
+    @OptIn(DelicateCoroutinesApi::class)
     fun login(username: String, password: String, listener: DataChangedListener<LoginData>) {
         if(username.isEmpty() or password.isEmpty()) {
             listener.onChanged(LoginData(1, "account or password is empty!"))
@@ -63,7 +69,9 @@ class LoginCtl : BaseCtl(){
             override fun onResponse(call: Call<SResponse<LoginInfo>>, response: Response<SResponse<LoginInfo>>) {
                 if (response.isSuccessful) {
                     val body = response.body()
-                    body?.data?.let { cacheLoginInfo(it) }
+                    GlobalScope.launch {
+                        body?.data?.let { cacheLoginInfo(it) }
+                    }
                     Log.d(TAG, "onResponse: ${body?.message}")
                     listener.onChanged(LoginData(body?.status, body?.message))
                     listener.onAfter(body?.message)
@@ -78,7 +86,7 @@ class LoginCtl : BaseCtl(){
         })
     }
 
-    private fun cacheLoginInfo(loginInfo: LoginInfo) {
+    private suspend fun cacheLoginInfo(loginInfo: LoginInfo) {
         dbHelper.userDao().insertAll(loginInfo)
 
         PreferenceHelper.save(MyConstants.SP_TOKEN_KEY, loginInfo.access_token)
