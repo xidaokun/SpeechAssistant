@@ -9,8 +9,10 @@ import com.speech.assistant.datas.VoiceInfo
 import com.speech.assistant.net.RetrofitClient
 import com.speech.assistant.utls.NetUtils
 import kotlinx.coroutines.DelicateCoroutinesApi
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -25,25 +27,32 @@ class WriteCtl : BaseCtl() {
 
     @OptIn(DelicateCoroutinesApi::class)
     fun getVoiceList(listener: DataChangedListener<VoiceData>) {
-        val call = RetrofitClient.apiService.voiceList()
-        call.enqueue(object : Callback<SResponse<List<VoiceInfo>>> {
-            override fun onResponse(call: Call<SResponse<List<VoiceInfo>>>, response: Response<SResponse<List<VoiceInfo>>>) {
-                if (response.isSuccessful) {
-                    val body = response.body()
-                    Log.d(TAG, "onResponse: ${body?.message}")
-
-                    GlobalScope.launch {
-                        body?.data?.let { cacheVoiceList(it) }
+        GlobalScope.launch {
+            dbHelper.voiceDao().getAll().let {
+                if (it.isNotEmpty()) {
+                    listener.onChanged(VoiceData(1, "success", it))
+                } else {
+                    RetrofitClient.apiService.voiceList().run {
+                        try {
+                            val response = execute()
+                            if (response.isSuccessful) {
+                                val body = response.body()
+                                Log.d(TAG, "onResponse: ${body?.message}")
+                                body?.data?.let { cacheVoiceList(it) }
+                                withContext(Dispatchers.Main) {
+                                    listener.onChanged(VoiceData(body?.status, body?.message, body?.data))
+                                }
+                            }
+                        } catch (e: Exception) {
+                            Log.d(TAG, "getVoiceList: ${e.message}")
+                            withContext(Dispatchers.Main) {
+                                listener.onChanged(VoiceData(0, e.message))
+                            }
+                        }
                     }
-                    listener.onChanged(VoiceData(body?.status, body?.message))
                 }
             }
-
-            override fun onFailure(call: Call<SResponse<List<VoiceInfo>>>, t: Throwable) {
-                Log.d(TAG, "onFailure: ${t.message}")
-                listener.onChanged(VoiceData(0, t.message))
-            }
-        })
+        }
     }
 
     fun transform(text: String, name: String, voice: String, volume: String, rate: String, listener: DataChangedListener<WriteData>) {
@@ -66,7 +75,7 @@ class WriteCtl : BaseCtl() {
     }
 
 
-    private suspend fun cacheVoiceList(data: List<VoiceInfo>) {
+    private fun cacheVoiceList(data: List<VoiceInfo>) {
         dbHelper.voiceDao().insertAll(data)
     }
 
